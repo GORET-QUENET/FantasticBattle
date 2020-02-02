@@ -7,11 +7,9 @@ namespace FantasticBattle.Entities
     public class EnemyUnit : Unit
     {
         public EnemyUnit(ContentManager contentManager, 
-                    SpriteBatch spriteBatch, 
                     Vector2 position, 
                     Texture2D unitTexture) 
             : base(contentManager, 
-                  spriteBatch, 
                   position, 
                   unitTexture)
         {

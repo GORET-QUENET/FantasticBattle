@@ -13,13 +13,23 @@ namespace FantasticBattle.Managers
 
         private readonly ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
-        private SpriteBatch _spriteBatch;
 
-        public UnitsManager(ContentManager contentManager, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        public UnitsManager(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
-            _spriteBatch = spriteBatch;
+        }
+
+        public void GenerateUnit(bool isEnemy, Vector2 position, Texture2D unitTexture)
+        {
+            if (isEnemy)
+            {
+                EnemyUnits.Add(new EnemyUnit(_contentManager, position, unitTexture));
+            }
+            else
+            {
+                FriendlyUnits.Add(new FriendlyUnit(_contentManager, position, unitTexture));
+            }
         }
 
         #region MonoMethods
@@ -28,10 +38,10 @@ namespace FantasticBattle.Managers
 
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            EnemyUnits.ForEach(x => x.Draw(gameTime));
-            FriendlyUnits.ForEach(x => x.Draw(gameTime));
+            EnemyUnits.ForEach(x => x.Draw(gameTime, spriteBatch));
+            FriendlyUnits.ForEach(x => x.Draw(gameTime, spriteBatch));
         }
 
         public void Update(GameTime gameTime)
@@ -40,17 +50,5 @@ namespace FantasticBattle.Managers
             FriendlyUnits.ForEach(x => x.Update(gameTime));
         }
         #endregion
-
-        public void GenerateUnit(bool isEnemy, Vector2 position, Texture2D unitTexture)
-        {
-            if(isEnemy)
-            {
-                EnemyUnits.Add(new EnemyUnit(_contentManager, _spriteBatch, position, unitTexture));
-            }
-            else
-            {
-                FriendlyUnits.Add(new FriendlyUnit(_contentManager, _spriteBatch, position, unitTexture));
-            }
-        }
     }
 }

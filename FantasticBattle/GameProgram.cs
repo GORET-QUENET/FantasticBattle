@@ -31,7 +31,7 @@ namespace FantasticBattle
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -45,11 +45,11 @@ namespace FantasticBattle
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            unitsManager = new UnitsManager(Content, GraphicsDevice, spriteBatch);
+            unitsManager = new UnitsManager(Content, GraphicsDevice);
             unitsManager.Load();
-            uiManager = new UIManager(Content, GraphicsDevice, spriteBatch, unitsManager);
+            uiManager = new UIManager(Content, GraphicsDevice, unitsManager);
             uiManager.Load();
-            enemyManager = new EnemyManager(Content, GraphicsDevice, spriteBatch, unitsManager);
+            enemyManager = new EnemyManager(Content, GraphicsDevice, unitsManager);
             enemyManager.Load();
         }
 
@@ -89,9 +89,9 @@ namespace FantasticBattle
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            enemyManager.Draw(gameTime);
-            uiManager.Draw(gameTime);
-            unitsManager.Draw(gameTime);
+            enemyManager.Draw(gameTime, spriteBatch);
+            uiManager.Draw(gameTime, spriteBatch);
+            unitsManager.Draw(gameTime, spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

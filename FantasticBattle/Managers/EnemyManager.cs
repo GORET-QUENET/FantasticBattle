@@ -8,14 +8,12 @@ namespace FantasticBattle.Managers
     {
         private readonly ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
-        private SpriteBatch _spriteBatch;
         private UnitsManager _unitsManager;
 
-        public EnemyManager(ContentManager contentManager, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, UnitsManager unitsManager)
+        public EnemyManager(ContentManager contentManager, GraphicsDevice graphicsDevice, UnitsManager unitsManager)
         {
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
-            _spriteBatch = spriteBatch;
             _unitsManager = unitsManager;
         }
         #region MonoMethods
@@ -24,7 +22,7 @@ namespace FantasticBattle.Managers
 
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
         }
