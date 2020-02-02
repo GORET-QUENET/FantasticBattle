@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FantasticBattle.Managers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -7,12 +8,15 @@ namespace FantasticBattle
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class GameProgram : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        UIManager uiManager;
+        EnemyManager enemyManager;
+        UnitsManager unitsManager;
 
-        public Game1()
+        public GameProgram()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -41,6 +45,12 @@ namespace FantasticBattle
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            unitsManager = new UnitsManager(Content, GraphicsDevice, spriteBatch);
+            unitsManager.Load();
+            uiManager = new UIManager(Content, GraphicsDevice, spriteBatch, unitsManager);
+            uiManager.Load();
+            enemyManager = new EnemyManager(Content, GraphicsDevice, spriteBatch, unitsManager);
+            enemyManager.Load();
         }
 
         /// <summary>
@@ -63,7 +73,9 @@ namespace FantasticBattle
                 Exit();
 
             // TODO: Add your update logic here
-
+            enemyManager.Update(gameTime);
+            uiManager.Update(gameTime);
+            unitsManager.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -76,7 +88,11 @@ namespace FantasticBattle
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            enemyManager.Draw(gameTime);
+            uiManager.Draw(gameTime);
+            unitsManager.Draw(gameTime);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
