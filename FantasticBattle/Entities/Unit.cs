@@ -32,7 +32,7 @@ namespace FantasticBattle.Entities
         }
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            
+            spriteBatch.Draw(_unitTexture, _position, Color.White);
         }
         #endregion
     }

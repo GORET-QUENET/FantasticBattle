@@ -8,8 +8,8 @@ namespace FantasticBattle.Managers
 {
     public class UnitsManager
     {
-        public List<Unit> FriendlyUnits = new List<Unit>();
-        public List<Unit> EnemyUnits = new List<Unit>();
+        public List<FriendlyUnit> FriendlyUnits = new List<FriendlyUnit>();
+        public List<EnemyUnit> EnemyUnits = new List<EnemyUnit>();
 
         private readonly ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
