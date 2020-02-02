@@ -30,9 +30,12 @@ namespace FantasticBattle
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            // Add your initialization logic here
             IsMouseVisible = true;
             base.Initialize();
+            unitsManager = new UnitsManager(Content, GraphicsDevice);
+            uiManager = new UIManager(Content, GraphicsDevice, unitsManager);
+            enemyManager = new EnemyManager(Content, GraphicsDevice, unitsManager);
         }
 
         /// <summary>
@@ -44,12 +47,8 @@ namespace FantasticBattle
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-            unitsManager = new UnitsManager(Content, GraphicsDevice);
             unitsManager.Load();
-            uiManager = new UIManager(Content, GraphicsDevice, unitsManager);
             uiManager.Load();
-            enemyManager = new EnemyManager(Content, GraphicsDevice, unitsManager);
             enemyManager.Load();
         }
 
@@ -72,7 +71,7 @@ namespace FantasticBattle
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            // Add your update logic here
             enemyManager.Update(gameTime);
             uiManager.Update(gameTime);
             unitsManager.Update(gameTime);
@@ -87,7 +86,7 @@ namespace FantasticBattle
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            // Add your drawing code here
             spriteBatch.Begin();
             enemyManager.Draw(gameTime, spriteBatch);
             uiManager.Draw(gameTime, spriteBatch);

@@ -21,6 +21,7 @@ namespace FantasticBattle.Entities
             _contentManager = contentManager;
             _position = position;
             _unitTexture = unitTexture;
+            //TODO : Appeller le base.Load avec les bonnes hauteurs et largeurs pour animer le sprite
             //base.Load(_unitTexture.Width, _unitTexture.Width / 2, _unitTexture.Height, 10);
         }
 
