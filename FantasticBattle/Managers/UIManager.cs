@@ -25,8 +25,7 @@ namespace FantasticBattle.Managers
         private void UnitButtonClicked(object sender, EventArgs e)
         {
             Debug.WriteLine("Clicked");
-            // TODO : ajouter un sprite dans le Content.mgcb pour la première unité
-            _unitsManager.GenerateUnit(false, new Vector2(0, 300), _contentManager.Load<Texture2D>("unit1"));
+            _unitsManager.GenerateUnit(false, new Vector2(0, 300), _contentManager.Load<Texture2D>("Units/Orcs/orc_brute"));
         }
 
         #region MonoMethods
