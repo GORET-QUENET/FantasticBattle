@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FantasticBattle", "FantasticBattle\FantasticBattle.csproj", "{19B33F9F-38CA-4936-859E-4FCA26E893E9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19B33F9F-38CA-4936-859E-4FCA26E893E9}.Debug|x86.ActiveCfg = Debug|x86
+		{19B33F9F-38CA-4936-859E-4FCA26E893E9}.Debug|x86.Build.0 = Debug|x86
+		{19B33F9F-38CA-4936-859E-4FCA26E893E9}.Release|x86.ActiveCfg = Release|x86
+		{19B33F9F-38CA-4936-859E-4FCA26E893E9}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D7F5F526-5616-4E8A-A509-12A6A87EBE3A}
+	EndGlobalSection
+EndGlobal
