@@ -32,10 +32,10 @@ namespace FantasticBattle
         {
             // Add your initialization logic here
             IsMouseVisible = true;
-            base.Initialize();
             unitsManager = new UnitsManager(Content, GraphicsDevice);
             uiManager = new UIManager(Content, GraphicsDevice, unitsManager);
             enemyManager = new EnemyManager(Content, GraphicsDevice, unitsManager);
+            base.Initialize();
         }
 
         /// <summary>
