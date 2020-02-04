@@ -1,8 +1,11 @@
 ﻿using FantasticBattle.Entities;
+using FantasticBattle.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 
 namespace FantasticBattle.Managers
 {
@@ -10,6 +13,7 @@ namespace FantasticBattle.Managers
     {
         public List<FriendlyUnit> FriendlyUnits = new List<FriendlyUnit>();
         public List<EnemyUnit> EnemyUnits = new List<EnemyUnit>();
+        public Dictionary<string, UnitInformation> UnitsInformation = new Dictionary<string, UnitInformation>();
 
         private readonly ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
@@ -20,22 +24,27 @@ namespace FantasticBattle.Managers
             _graphicsDevice = graphicsDevice;
         }
 
-        public void GenerateUnit(bool isEnemy, Vector2 position, Texture2D unitTexture)
+        public void GenerateUnit(bool isEnemy, Vector2 position, string name)
         {
+            string path = string.Format("Units/{0}s/{1}", 
+                UnitsInformation[name].Race, 
+                UnitsInformation[name].Texture);
+            Texture2D texture2D = _contentManager.Load<Texture2D>(path);
             if (isEnemy)
             {
-                EnemyUnits.Add(new EnemyUnit(_contentManager, position, unitTexture));
+                EnemyUnits.Add(new EnemyUnit(_contentManager, position, texture2D));
             }
             else
             {
-                FriendlyUnits.Add(new FriendlyUnit(_contentManager, position, unitTexture));
+                FriendlyUnits.Add(new FriendlyUnit(_contentManager, position, texture2D));
             }
         }
 
         #region MonoMethods
         public void Load()
         {
-
+            string json = File.ReadAllText(@"Entities\UnitsInformation.json");
+            UnitsInformation = JsonConvert.DeserializeObject<Dictionary<string, UnitInformation>>(json);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

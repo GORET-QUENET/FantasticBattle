@@ -15,13 +15,16 @@ namespace FantasticBattle.Entities
         private static Texture2D _unitTexture;
 
         protected Vector2 _position;
-        protected int _speed = 30;
+        protected int _speed;
+
+        public int Cost;
         public Unit(ContentManager contentManager, Vector2 position, Texture2D unitTexture)
         {
             _contentManager = contentManager;
             _position = position;
             _unitTexture = unitTexture;
-            //TODO : Appeller le base.Load avec les bonnes hauteurs et largeurs pour animer le sprite
+
+            _speed = 30;
             base.Load(_unitTexture.Width, 32, 32, 3);
         }
 

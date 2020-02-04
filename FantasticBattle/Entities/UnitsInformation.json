@@ -1,0 +1,20 @@
+{
+  "orc_simple": {
+    "Cost": 100,
+    "Name": "orc_simple",
+    "Race": "Orc",
+    "LP": 150,
+    "Dommage": 40,
+    "Speed": 35,
+    "Texture": "orc_brute"
+  },
+  "humain_simple": {
+    "Cost": 80,
+    "Name": "humain_simple",
+    "Race": "Humain",
+    "LP": 120,
+    "Dommage": 35,
+    "Speed": 40,
+    "Texture": "humain_brute"
+  }
+}
