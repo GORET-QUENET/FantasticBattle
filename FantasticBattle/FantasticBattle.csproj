@@ -50,7 +50,8 @@
     <Compile Include="Entities\FriendlyUnit.cs" />
     <Compile Include="Entities\Unit.cs" />
     <Compile Include="Entities\UnitInformation.cs" />
-    <Compile Include="Enums\Eunit.cs" />
+    <Compile Include="GameConfig.cs" />
+    <Compile Include="Singleton.cs" />
     <Compile Include="GameProgram.cs" />
     <Compile Include="Managers\EnemyManager.cs" />
     <Compile Include="Managers\UIManager.cs" />
