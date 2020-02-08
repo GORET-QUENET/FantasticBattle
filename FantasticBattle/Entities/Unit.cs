@@ -24,8 +24,8 @@ namespace FantasticBattle.Entities
             _position = position;
             _unitTexture = unitTexture;
 
-            _speed = 30;
-            base.Load(_unitTexture.Width, 32, 32, 3);
+            _speed = 50;
+            base.Load(_unitTexture.Width, 96, 96, 5);
         }
 
         #region MonoMethods
