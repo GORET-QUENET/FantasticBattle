@@ -8,9 +8,11 @@ namespace FantasticBattle
 
         public GameConfig()
         {
-            UnitsName = new List<string>();
-            UnitsName.Add("orc_simple");
-            UnitsName.Add("humain_simple");
+            UnitsName = new List<string>
+            {
+                "orc_simple",
+                "humain_simple"
+            };
         }
     }
 }

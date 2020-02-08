@@ -22,6 +22,7 @@ namespace FantasticBattle.Managers
         private double _timer;
 
         public int Money;
+        public int Health;
         public List<int> SelectedUnitsId;
 
         public UIManager(ContentManager contentManager, GraphicsDevice graphicsDevice, UnitsManager unitsManager)
@@ -31,6 +32,7 @@ namespace FantasticBattle.Managers
             _unitsManager = unitsManager;
 
             Money = 60;
+            Health = 100;
             _defaultFont = _contentManager.Load<SpriteFont>("Fonts/Font");
             _timer = TIMER;
             SelectedUnitsId = new List<int>{0, 0, 0, 0, 0, 0, 0};
@@ -67,12 +69,22 @@ namespace FantasticBattle.Managers
 
             Sprite moneyIcon = new Sprite(_contentManager.Load<Texture2D>("UI/ui_coin"))
             {
-                Position = new Vector2(20, 20)
+                Position = new Vector2(20, 40)
             };
             _gameSprites.Add(moneyIcon);
+            Sprite healthBar = new Sprite(_contentManager.Load<Texture2D>("UI/healthBar"))
+            {
+                Position = new Vector2(20, 20)
+            };
+            _gameSprites.Add(healthBar);
+            Sprite healthGauge = new Sprite(_contentManager.Load<Texture2D>("UI/healthBarGauge"))
+            {
+                Position = new Vector2(20, 20)
+            };
+            _gameSprites.Add(healthGauge);
             SpriteText moneyFont = new SpriteText(_defaultFont)
             {
-                Position = new Vector2(58, 30),
+                Position = new Vector2(58, 50),
                 Text = Money.ToString()
             };
             _gameSpritesTexts.Add(moneyFont);
@@ -94,6 +106,16 @@ namespace FantasticBattle.Managers
             //Money text
             _gameSpritesTexts[0].Text = Money.ToString();
 
+            //HeathGauge
+            _gameSprites[2].WidthPercent = Health;
+
+            if (Health > 75)
+                _gameSprites[2].Color = Color.Green;
+            else if (Health > 40)
+                _gameSprites[2].Color = Color.Orange;
+            else
+                _gameSprites[2].Color = Color.Red;
+
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _timer -= elapsed;
             if (_timer < 0)
@@ -107,6 +129,7 @@ namespace FantasticBattle.Managers
         public void SlowUpdate(GameTime gameTime)
         {
             Money += 10;
+            Health -= 4;
         }
         #endregion
     }
