@@ -4,7 +4,7 @@
     "Name": "orc_simple",
     "Race": "Orc",
     "LP": 150,
-    "Dommage": 40,
+    "Dammage": 40,
     "Speed": 35,
     "Texture": "orc_brute"
   },
@@ -13,7 +13,7 @@
     "Name": "humain_simple",
     "Race": "Humain",
     "LP": 120,
-    "Dommage": 35,
+    "Dammage": 35,
     "Speed": 40,
     "Texture": "humain_brute"
   }

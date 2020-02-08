@@ -12,20 +12,45 @@ namespace FantasticBattle.Entities
     public class Unit : AnimatedSprite
     {
         private readonly ContentManager _contentManager;
-        private static Texture2D _unitTexture;
 
-        protected Vector2 _position;
+        protected GraphicsDevice _graphicsDevice;
+        protected static Texture2D _unitTexture;
         protected int _speed;
+        public event EventHandler _finish;
 
-        public int Cost;
-        public Unit(ContentManager contentManager, Vector2 position, Texture2D unitTexture)
+        public Vector2 Position;
+        public Rectangle Rectangle
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, _unitTexture.Width / AmountFrames, _unitTexture.Height);
+            }
+        }
+        public string Name;
+        public int ID;
+        public Unit(ContentManager contentManager, 
+            GraphicsDevice graphicsDevice, 
+            Vector2 position, 
+            Texture2D unitTexture, 
+            string name, 
+            EventHandler finish, 
+            int id)
         {
             _contentManager = contentManager;
-            _position = position;
+            _graphicsDevice = graphicsDevice;
+            Position = position;
             _unitTexture = unitTexture;
+            Name = name;
+            _finish += finish;
+            ID = id;
 
             _speed = 50;
             base.Load(_unitTexture.Width, 96, 96, 5);
+        }
+
+        protected void HaveFinish()
+        {
+            _finish.Invoke(this, new EventArgs());
         }
 
         #region MonoMethods
@@ -35,7 +60,7 @@ namespace FantasticBattle.Entities
         }
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_unitTexture, _position, base.SourceRect, Color.White);
+            spriteBatch.Draw(_unitTexture, Position, base.SourceRect, Color.White);
         }
         #endregion
     }

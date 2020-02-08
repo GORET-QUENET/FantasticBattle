@@ -36,6 +36,9 @@ namespace FantasticBattle.Managers
             _defaultFont = _contentManager.Load<SpriteFont>("Fonts/Font");
             _timer = TIMER;
             SelectedUnitsId = new List<int>{0, 0, 0, 0, 0, 0, 0};
+
+            _unitsManager.EnemyFinished += EnemyFinish;
+            _unitsManager.FriendlyFinished += FriendlyFinish;
         }
 
         private void UnitButtonClicked(object sender, EventArgs e)
@@ -50,6 +53,18 @@ namespace FantasticBattle.Managers
                 _unitsManager.GenerateUnit(false, new Vector2(0, 300), name);
                 Money -= _unitsManager.UnitsInformation[name].Cost;
             }
+        }
+
+        private void EnemyFinish(object sender, EventArgs e)
+        {
+            string name = (string)sender;
+            int dammage = _unitsManager.UnitsInformation[name].Dammage;
+            Health -= dammage;
+        }
+
+        private void FriendlyFinish(object sender, EventArgs e)
+        {
+            Console.WriteLine("have finish");
         }
 
         #region MonoMethods
@@ -129,7 +144,6 @@ namespace FantasticBattle.Managers
         public void SlowUpdate(GameTime gameTime)
         {
             Money += 10;
-            Health -= 4;
         }
         #endregion
     }
