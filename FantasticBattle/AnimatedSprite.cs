@@ -15,6 +15,7 @@ namespace FantasticBattle
         public Rectangle SourceRect { get; set; }
         public int AmountFrames { get; set; }
         public int CurrentFrame { get; set; }
+        public Color Color { get; set; }
         private int _updateTick = 0;
 
         public AnimatedSprite() { }
@@ -28,6 +29,7 @@ namespace FantasticBattle
             this.FrameHeight = frameHeight;
             this.Duration = duration;
 
+            Color = Color.White;
             AmountFrames = textureWidth / this.FrameWidth;
             SourceRect = new Rectangle(CurrentFrame * this.FrameWidth, 0, this.FrameWidth, this.FrameHeight);
         }
@@ -49,6 +51,8 @@ namespace FantasticBattle
                     CurrentFrame = 0;
                 }
                 SourceRect = new Rectangle(CurrentFrame * this.FrameWidth, 0, this.FrameWidth, this.FrameHeight);
+                if (Color == Color.Red)
+                    Color = Color.White;
                 _updateTick = 0;
             }
         }

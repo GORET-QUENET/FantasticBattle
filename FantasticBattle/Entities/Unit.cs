@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FantasticBattle.Enums;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -13,11 +14,15 @@ namespace FantasticBattle.Entities
     {
         private readonly ContentManager _contentManager;
 
+        protected const float TIMER = 1;
+        protected double _timer = 0;
         protected GraphicsDevice _graphicsDevice;
         protected static Texture2D _unitTexture;
         protected int _speed;
-        public event EventHandler _finish;
+        protected Unit _opponent = null;
 
+        public event EventHandler Finish;
+        public event EventHandler IsDead;
         public Vector2 Position;
         public Rectangle Rectangle
         {
@@ -27,40 +32,61 @@ namespace FantasticBattle.Entities
             }
         }
         public string Name;
+        public int Health;
+        public int Dammage;
         public int ID;
+        public EUnitState UnitState;
+
         public Unit(ContentManager contentManager, 
             GraphicsDevice graphicsDevice, 
             Vector2 position, 
-            Texture2D unitTexture, 
-            string name, 
-            EventHandler finish, 
-            int id)
+            Texture2D unitTexture)
         {
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
+
             Position = position;
             _unitTexture = unitTexture;
-            Name = name;
-            _finish += finish;
-            ID = id;
 
+            UnitState = EUnitState.Walk;
             _speed = 50;
             base.Load(_unitTexture.Width, 96, 96, 5);
         }
 
         protected void HaveFinish()
         {
-            _finish.Invoke(this, new EventArgs());
+            Finish.Invoke(this, new EventArgs());
+        }
+
+        public void Attack(Unit opponent)
+        {
+            if (opponent.IsDeadByDammage(Dammage) && Health > 0)
+                UnitState = EUnitState.Walk;
+        }
+
+        public bool IsDeadByDammage(int dammage)
+        {
+            Health -= Dammage;
+            Color = Color.Red;
+
+            if (Health < 0)
+            {
+                IsDead.Invoke(this, new EventArgs());
+                return true;
+            }
+            else
+                return false;
         }
 
         #region MonoMethods
         public void Update(GameTime gameTime)
         {
+            
             base.Update(gameTime);
         }
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_unitTexture, Position, base.SourceRect, Color.White);
+            spriteBatch.Draw(_unitTexture, Position, base.SourceRect, Color);
         }
         #endregion
     }

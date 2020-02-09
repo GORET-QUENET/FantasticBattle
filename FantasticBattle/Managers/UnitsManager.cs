@@ -38,23 +38,29 @@ namespace FantasticBattle.Managers
             Texture2D texture2D = _contentManager.Load<Texture2D>(path);
             if (isEnemy)
             {
-                EnemyUnits.Add(new EnemyUnit(_contentManager, 
-                    _graphicsDevice, 
-                    position, 
-                    texture2D, 
-                    name, 
-                    EnemyFinish,
-                    _unitsGenerated));
+                EnemyUnit enemy = new EnemyUnit(_contentManager, _graphicsDevice, position, texture2D)
+                {
+                    Health = UnitsInformation[name].LP,
+                    Name = name,
+                    ID = _unitsGenerated,
+                    Dammage = UnitsInformation[name].Dammage
+                };
+                enemy.Finish += EnemyFinish;
+                enemy.IsDead += EnemyDead;
+                EnemyUnits.Add(enemy);
             }
             else
             {
-                FriendlyUnits.Add(new FriendlyUnit(_contentManager, 
-                    _graphicsDevice, 
-                    position, 
-                    texture2D, 
-                    name, 
-                    FriendlyFinish,
-                    _unitsGenerated));
+                FriendlyUnit friendly = new FriendlyUnit(_contentManager, _graphicsDevice, position, texture2D)
+                {
+                    Health = UnitsInformation[name].LP,
+                    Name = name,
+                    ID = _unitsGenerated,
+                    Dammage = UnitsInformation[name].Dammage
+                };
+                friendly.Finish += FriendlyFinish;
+                friendly.IsDead += FriendlyDead;
+                FriendlyUnits.Add(friendly);
             }
             _unitsGenerated++;
         }
@@ -69,6 +75,16 @@ namespace FantasticBattle.Managers
         {
             _friendlyToRemove = (FriendlyUnit)sender;
             FriendlyFinished.Invoke(_friendlyToRemove.Name, new EventArgs());
+        }
+
+        private void EnemyDead(object sender, EventArgs e)
+        {
+            _enemyToRemove = (EnemyUnit)sender;
+        }
+
+        private void FriendlyDead(object sender, EventArgs e)
+        {
+            _friendlyToRemove = (FriendlyUnit)sender;
         }
 
         #region MonoMethods
