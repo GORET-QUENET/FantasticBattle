@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace FantasticBattle.Managers
 {
@@ -21,6 +22,7 @@ namespace FantasticBattle.Managers
         private GraphicsDevice _graphicsDevice;
         private EnemyUnit _enemyToRemove = null;
         private FriendlyUnit _friendlyToRemove = null;
+        private int _unitsGenerated = 0;
 
         public UnitsManager(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
@@ -42,7 +44,7 @@ namespace FantasticBattle.Managers
                     texture2D, 
                     name, 
                     EnemyFinish,
-                    EnemyUnits.Count + FriendlyUnits.Count));
+                    _unitsGenerated));
             }
             else
             {
@@ -52,8 +54,9 @@ namespace FantasticBattle.Managers
                     texture2D, 
                     name, 
                     FriendlyFinish,
-                    EnemyUnits.Count + FriendlyUnits.Count));
+                    _unitsGenerated));
             }
+            _unitsGenerated++;
         }
 
         private void EnemyFinish(object sender, EventArgs e)
@@ -83,8 +86,17 @@ namespace FantasticBattle.Managers
 
         public void Update(GameTime gameTime)
         {
-            EnemyUnits.ForEach(x => x.Update(gameTime, EnemyUnits, FriendlyUnits));
-            FriendlyUnits.ForEach(x => x.Update(gameTime, EnemyUnits, FriendlyUnits));
+            EnemyUnits.FirstOrDefault()?.Update(gameTime, null, FriendlyUnits.FirstOrDefault());
+            for (int i = 1; i < EnemyUnits.Count; i++)
+            {
+                EnemyUnits[i].Update(gameTime, EnemyUnits[i-1], FriendlyUnits.FirstOrDefault());
+            }
+
+            FriendlyUnits.FirstOrDefault()?.Update(gameTime, EnemyUnits.FirstOrDefault(), null);
+            for (int i = 1; i < FriendlyUnits.Count; i++)
+            {
+                FriendlyUnits[i].Update(gameTime, EnemyUnits.FirstOrDefault(), FriendlyUnits[i-1]);
+            }
 
             if(_enemyToRemove != null)
             {

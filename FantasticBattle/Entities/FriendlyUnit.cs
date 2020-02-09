@@ -27,21 +27,15 @@ namespace FantasticBattle.Entities
         }
 
         #region MonoMethods
-        public void Update(GameTime gameTime, List<EnemyUnit> enemyList, List<FriendlyUnit> friendlyList)
+        public void Update(GameTime gameTime, EnemyUnit enemy, FriendlyUnit friendly)
         {
             bool obstacle = false;
 
-            foreach (var enemy in enemyList)
-            {
-                if (base.Rectangle.Intersects(enemy.Rectangle))
-                    obstacle = true;
-            }
+            if (enemy != null && Rectangle.Intersects(enemy.Rectangle))
+                obstacle = true;
 
-            foreach (var friendly in friendlyList)
-            {
-                if (base.Rectangle.Intersects(friendly.Rectangle) && ID != friendly.ID)
-                    obstacle = true;
-            }
+            if (friendly != null && Rectangle.Intersects(friendly.Rectangle))
+                obstacle = true;
 
             if(!obstacle)
                 Position.X += (float)(_speed * gameTime.ElapsedGameTime.TotalSeconds);
