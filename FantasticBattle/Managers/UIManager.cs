@@ -19,10 +19,10 @@ namespace FantasticBattle.Managers
         private List<Button> _gameButtons = new List<Button>();
         private List<Sprite> _gameSprites = new List<Sprite>();
         private List<SpriteText> _gameSpritesTexts = new List<SpriteText>();
+        private HealthBar _healthBar;
         private double _timer;
 
         public int Money;
-        public int Health;
         public List<int> SelectedUnitsId;
 
         public UIManager(ContentManager contentManager, GraphicsDevice graphicsDevice, UnitsManager unitsManager)
@@ -32,7 +32,6 @@ namespace FantasticBattle.Managers
             _unitsManager = unitsManager;
 
             Money = 60;
-            Health = 100;
             _defaultFont = _contentManager.Load<SpriteFont>("Fonts/Font");
             _timer = TIMER;
             SelectedUnitsId = new List<int>{0, 0, 0, 0, 0, 0, 0};
@@ -59,7 +58,7 @@ namespace FantasticBattle.Managers
         {
             string name = (string)sender;
             int dammage = _unitsManager.UnitsInformation[name].Dammage;
-            Health -= dammage;
+            _healthBar.Health -= dammage;
         }
 
         private void FriendlyFinish(object sender, EventArgs e)
@@ -87,16 +86,9 @@ namespace FantasticBattle.Managers
                 Position = new Vector2(20, 40)
             };
             _gameSprites.Add(moneyIcon);
-            Sprite healthBar = new Sprite(_contentManager.Load<Texture2D>("UI/healthBar"))
-            {
-                Position = new Vector2(20, 20)
-            };
-            _gameSprites.Add(healthBar);
-            Sprite healthGauge = new Sprite(_contentManager.Load<Texture2D>("UI/healthBarGauge"))
-            {
-                Position = new Vector2(20, 20)
-            };
-            _gameSprites.Add(healthGauge);
+
+            _healthBar = new HealthBar(_contentManager, 100, new Vector2(20, 20));
+            
             SpriteText moneyFont = new SpriteText(_defaultFont)
             {
                 Position = new Vector2(58, 50),
@@ -110,6 +102,7 @@ namespace FantasticBattle.Managers
             _gameButtons.ForEach(x => x.Draw(gameTime, spriteBatch));
             _gameSprites.ForEach(x => x.Draw(gameTime, spriteBatch));
             _gameSpritesTexts.ForEach(x => x.Draw(gameTime, spriteBatch));
+            _healthBar.Draw(gameTime, spriteBatch);
         }
 
         public void Update(GameTime gameTime)
@@ -117,19 +110,10 @@ namespace FantasticBattle.Managers
             _gameButtons.ForEach(x => x.Update(gameTime));
             _gameSprites.ForEach(x => x.Update(gameTime));
             _gameSpritesTexts.ForEach(x => x.Update(gameTime));
+            _healthBar.Update(gameTime);
 
             //Money text
             _gameSpritesTexts[0].Text = Money.ToString();
-
-            //HeathGauge
-            _gameSprites[2].WidthPercent = Health;
-
-            if (Health > 75)
-                _gameSprites[2].Color = Color.Green;
-            else if (Health > 40)
-                _gameSprites[2].Color = Color.Orange;
-            else
-                _gameSprites[2].Color = Color.Red;
 
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _timer -= elapsed;

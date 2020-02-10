@@ -12,11 +12,13 @@ namespace FantasticBattle.Entities
         public FriendlyUnit(ContentManager contentManager,
                     GraphicsDevice graphicsDevice,
                     Vector2 position,
-                    Texture2D unitTexture)
+                    Texture2D unitTexture,
+                    int health)
             : base(contentManager,
                   graphicsDevice,
                   position,
-                  unitTexture)
+                  unitTexture,
+                  health)
         {
 
         }

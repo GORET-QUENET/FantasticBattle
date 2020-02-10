@@ -1,4 +1,5 @@
-﻿using FantasticBattle.Enums;
+﻿using FantasticBattle.Controls;
+using FantasticBattle.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,6 +15,7 @@ namespace FantasticBattle.Entities
     {
         private readonly ContentManager _contentManager;
 
+        protected HealthBar _healthBar;
         protected const float TIMER = 1;
         protected double _timer = 0;
         protected GraphicsDevice _graphicsDevice;
@@ -32,7 +34,6 @@ namespace FantasticBattle.Entities
             }
         }
         public string Name;
-        public int Health;
         public int Dammage;
         public int ID;
         public EUnitState UnitState;
@@ -40,13 +41,15 @@ namespace FantasticBattle.Entities
         public Unit(ContentManager contentManager, 
             GraphicsDevice graphicsDevice, 
             Vector2 position, 
-            Texture2D unitTexture)
+            Texture2D unitTexture,
+            int health)
         {
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
 
             Position = position;
             _unitTexture = unitTexture;
+            _healthBar = new HealthBar(contentManager, health, position, 40);
 
             UnitState = EUnitState.Walk;
             _speed = 50;
@@ -60,16 +63,16 @@ namespace FantasticBattle.Entities
 
         public void Attack(Unit opponent)
         {
-            if (opponent.IsDeadByDammage(Dammage) && Health > 0)
+            if (opponent.IsDeadByDammage(Dammage) && _healthBar.Health > 0)
                 UnitState = EUnitState.Walk;
         }
 
         public bool IsDeadByDammage(int dammage)
         {
-            Health -= Dammage;
+            _healthBar.Health -= Dammage;
             Color = Color.Red;
 
-            if (Health < 0)
+            if (_healthBar.Health < 0)
             {
                 IsDead.Invoke(this, new EventArgs());
                 return true;
@@ -81,11 +84,13 @@ namespace FantasticBattle.Entities
         #region MonoMethods
         public void Update(GameTime gameTime)
         {
-            
+            _healthBar.Position = Position;
+            _healthBar.Update(gameTime);
             base.Update(gameTime);
         }
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            _healthBar.Draw(gameTime, spriteBatch);
             spriteBatch.Draw(_unitTexture, Position, base.SourceRect, Color);
         }
         #endregion

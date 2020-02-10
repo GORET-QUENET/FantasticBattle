@@ -38,9 +38,8 @@ namespace FantasticBattle.Managers
             Texture2D texture2D = _contentManager.Load<Texture2D>(path);
             if (isEnemy)
             {
-                EnemyUnit enemy = new EnemyUnit(_contentManager, _graphicsDevice, position, texture2D)
+                EnemyUnit enemy = new EnemyUnit(_contentManager, _graphicsDevice, position, texture2D, UnitsInformation[name].LP)
                 {
-                    Health = UnitsInformation[name].LP,
                     Name = name,
                     ID = _unitsGenerated,
                     Dammage = UnitsInformation[name].Dammage
@@ -51,9 +50,8 @@ namespace FantasticBattle.Managers
             }
             else
             {
-                FriendlyUnit friendly = new FriendlyUnit(_contentManager, _graphicsDevice, position, texture2D)
+                FriendlyUnit friendly = new FriendlyUnit(_contentManager, _graphicsDevice, position, texture2D, UnitsInformation[name].LP)
                 {
-                    Health = UnitsInformation[name].LP,
                     Name = name,
                     ID = _unitsGenerated,
                     Dammage = UnitsInformation[name].Dammage

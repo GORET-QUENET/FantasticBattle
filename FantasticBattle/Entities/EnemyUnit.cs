@@ -12,11 +12,13 @@ namespace FantasticBattle.Entities
         public EnemyUnit(ContentManager contentManager,
                     GraphicsDevice graphicsDevice,
                     Vector2 position, 
-                    Texture2D unitTexture) 
+                    Texture2D unitTexture,
+                    int health) 
             : base(contentManager, 
                   graphicsDevice,
                   position, 
-                  unitTexture)
+                  unitTexture,
+                  health)
         {
 
         }
@@ -60,6 +62,7 @@ namespace FantasticBattle.Entities
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            _healthBar.Draw(gameTime, spriteBatch);
             spriteBatch.Draw(_unitTexture, Position, base.SourceRect, Color, 0, Vector2.Zero, Vector2.One, SpriteEffects.FlipHorizontally, 0);
         }
         #endregion
