@@ -8,6 +8,7 @@ namespace FantasticBattle.Enums
 {
     public enum EGameState
     {
+        Exit,
         MainMenu,
         Game
     }

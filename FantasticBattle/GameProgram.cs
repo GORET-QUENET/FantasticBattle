@@ -83,6 +83,8 @@ namespace FantasticBattle
                 _scene_MainMenu.Update(gameTime);
             else if (_State == EGameState.Game)
                 _scene_Game.Update(gameTime);
+            else if (_State == EGameState.Exit)
+                this.Exit();
             base.Update(gameTime);
         }
 
