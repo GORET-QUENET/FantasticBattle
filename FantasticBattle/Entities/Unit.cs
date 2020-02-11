@@ -69,7 +69,7 @@ namespace FantasticBattle.Entities
 
         public bool IsDeadByDammage(int dammage)
         {
-            _healthBar.Health -= Dammage;
+            _healthBar.Health -= dammage;
             Color = Color.Red;
 
             if (_healthBar.Health < 0)
