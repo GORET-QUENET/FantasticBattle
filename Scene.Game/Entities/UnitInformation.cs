@@ -1,4 +1,4 @@
-﻿namespace FantasticBattle.Entities
+﻿namespace Scene.Game.Entities
 {
     public class UnitInformation
     {

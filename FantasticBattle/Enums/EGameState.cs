@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace FantasticBattle.Enums
 {
-    public enum EUnitState
+    public enum EGameState
     {
-        Walk,
-        Idle,
-        Fight
+        MainMenu,
+        Game
     }
 }

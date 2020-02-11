@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace FantasticBattle.Controls
+namespace Utils.Controls
 {
     public class Sprite : Component
     {

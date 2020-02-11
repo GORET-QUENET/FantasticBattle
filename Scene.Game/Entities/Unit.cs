@@ -1,15 +1,11 @@
-﻿using FantasticBattle.Controls;
-using FantasticBattle.Enums;
+﻿using Utils.Controls;
+using Scene.Game.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FantasticBattle.Entities
+namespace Scene.Game.Entities
 {
     public class Unit : AnimatedSprite
     {

@@ -1,7 +1,10 @@
-﻿using FantasticBattle.Managers;
+﻿using FantasticBattle.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Scene.Game;
+using Scene.MainMenu;
+using System;
 
 namespace FantasticBattle
 {
@@ -12,14 +15,17 @@ namespace FantasticBattle
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        UIManager uiManager;
-        EnemyManager enemyManager;
-        UnitsManager unitsManager;
+
+        private EGameState _State;
+        private Scene_Game _scene_Game;
+        private Scene_MainMenu _scene_MainMenu;
 
         public GameProgram()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            _scene_MainMenu = new Scene_MainMenu(ChangeState);
+            _scene_Game = new Scene_Game(ChangeState);
         }
 
         /// <summary>
@@ -32,9 +38,9 @@ namespace FantasticBattle
         {
             // Add your initialization logic here
             IsMouseVisible = true;
-            unitsManager = new UnitsManager(Content, GraphicsDevice);
-            uiManager = new UIManager(Content, GraphicsDevice, unitsManager);
-            enemyManager = new EnemyManager(Content, GraphicsDevice, unitsManager);
+            _State = EGameState.MainMenu;
+            _scene_MainMenu.Initialize(Content, GraphicsDevice);
+            _scene_Game.Initialize(Content, GraphicsDevice);
             base.Initialize();
         }
 
@@ -47,9 +53,8 @@ namespace FantasticBattle
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            unitsManager.Load();
-            uiManager.Load();
-            enemyManager.Load();
+            _scene_MainMenu.LoadContent();
+            _scene_Game.LoadContent();
         }
 
         /// <summary>
@@ -59,6 +64,8 @@ namespace FantasticBattle
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            _scene_MainMenu.UnloadContent();
+            _scene_Game.UnloadContent();
         }
 
         /// <summary>
@@ -72,9 +79,10 @@ namespace FantasticBattle
                 Exit();
 
             // Add your update logic here
-            enemyManager.Update(gameTime);
-            uiManager.Update(gameTime);
-            unitsManager.Update(gameTime);
+            if (_State == EGameState.MainMenu)
+                _scene_MainMenu.Update(gameTime);
+            else if (_State == EGameState.Game)
+                _scene_Game.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -88,11 +96,18 @@ namespace FantasticBattle
 
             // Add your drawing code here
             spriteBatch.Begin();
-            enemyManager.Draw(gameTime, spriteBatch);
-            uiManager.Draw(gameTime, spriteBatch);
-            unitsManager.Draw(gameTime, spriteBatch);
+            if(_State == EGameState.MainMenu)
+                _scene_MainMenu.Draw(gameTime, spriteBatch);
+            else if(_State == EGameState.Game)
+                _scene_Game.Draw(gameTime, spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public void ChangeState(object sender, EventArgs e)
+        {
+            int move = (int)sender;
+            _State += move;
         }
     }
 }

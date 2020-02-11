@@ -1,4 +1,4 @@
-﻿using FantasticBattle.Entities;
+﻿using Scene.Game.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace FantasticBattle.Managers
+namespace Scene.Game.Managers
 {
     public class UnitsManager
     {
@@ -88,7 +88,7 @@ namespace FantasticBattle.Managers
         #region MonoMethods
         public void Load()
         {
-            string json = File.ReadAllText(@"Entities\UnitsInformation.json");
+            string json = File.ReadAllText(@"UnitsInformation.json");
             UnitsInformation = JsonConvert.DeserializeObject<Dictionary<string, UnitInformation>>(json);
         }
 

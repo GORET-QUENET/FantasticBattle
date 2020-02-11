@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FantasticBattle
+namespace Scene.Game
 {
     public class GameConfig : Singleton<GameConfig>
     {

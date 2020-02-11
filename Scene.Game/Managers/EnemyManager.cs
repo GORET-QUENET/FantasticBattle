@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace FantasticBattle.Managers
+namespace Scene.Game.Managers
 {
     public class EnemyManager
     {
