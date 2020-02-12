@@ -18,12 +18,14 @@ namespace Utils.Controls
             }
         }
         public string Text { get; set; }
+        public int LifeTime { get; set; }
 
         public SpriteText(SpriteFont font, Texture2D texture = null)
         {
             _font = font;
             _texture = texture;
             PenColour = Color.Black;
+            LifeTime = 0;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -48,7 +50,8 @@ namespace Utils.Controls
 
         public override void Update(GameTime gameTime)
         {
-
+            if(LifeTime > 0)
+                LifeTime--;
         }
     }
 }

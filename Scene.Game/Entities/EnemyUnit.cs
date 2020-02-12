@@ -61,6 +61,7 @@ namespace Scene.Game.Entities
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             _healthBar.Draw(gameTime, spriteBatch);
+            _dammageTakenList.ForEach(x => x?.Draw(gameTime, spriteBatch));
             spriteBatch.Draw(_unitTexture, Position, base.SourceRect, Color, 0, Vector2.Zero, Vector2.One, SpriteEffects.FlipHorizontally, 0);
         }
         #endregion
