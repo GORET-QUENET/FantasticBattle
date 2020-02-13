@@ -17,6 +17,7 @@ namespace Scene.Game.Managers
         public Dictionary<string, UnitInformation> UnitsInformation = new Dictionary<string, UnitInformation>();
         public event EventHandler EnemyFinished;
         public event EventHandler FriendlyFinished;
+        public event EventHandler EarnMoney;
 
         private readonly ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
@@ -32,17 +33,12 @@ namespace Scene.Game.Managers
 
         public void GenerateUnit(bool isEnemy, Vector2 position, string name)
         {
-            string path = string.Format("Units/{0}s/{1}", 
-                UnitsInformation[name].Race, 
-                UnitsInformation[name].Texture);
-            Texture2D texture2D = _contentManager.Load<Texture2D>(path);
             if (isEnemy)
             {
-                EnemyUnit enemy = new EnemyUnit(_contentManager, _graphicsDevice, position, texture2D, UnitsInformation[name].LP)
+                EnemyUnit enemy = new EnemyUnit(_contentManager, _graphicsDevice, position, UnitsInformation[name])
                 {
                     Name = name,
-                    ID = _unitsGenerated,
-                    Dammage = UnitsInformation[name].Dammage
+                    ID = _unitsGenerated
                 };
                 enemy.Finish += EnemyFinish;
                 enemy.IsDead += EnemyDead;
@@ -50,11 +46,10 @@ namespace Scene.Game.Managers
             }
             else
             {
-                FriendlyUnit friendly = new FriendlyUnit(_contentManager, _graphicsDevice, position, texture2D, UnitsInformation[name].LP)
+                FriendlyUnit friendly = new FriendlyUnit(_contentManager, _graphicsDevice, position, UnitsInformation[name])
                 {
                     Name = name,
-                    ID = _unitsGenerated,
-                    Dammage = UnitsInformation[name].Dammage
+                    ID = _unitsGenerated
                 };
                 friendly.Finish += FriendlyFinish;
                 friendly.IsDead += FriendlyDead;
@@ -66,18 +61,19 @@ namespace Scene.Game.Managers
         private void EnemyFinish(object sender, EventArgs e)
         {
             _enemyToRemove = (EnemyUnit)sender;
-            EnemyFinished.Invoke(_enemyToRemove.Name, new EventArgs());
+            EnemyFinished.Invoke(_enemyToRemove.Dammage, new EventArgs());
         }
 
         private void FriendlyFinish(object sender, EventArgs e)
         {
             _friendlyToRemove = (FriendlyUnit)sender;
-            FriendlyFinished.Invoke(_friendlyToRemove.Name, new EventArgs());
+            FriendlyFinished.Invoke(_friendlyToRemove.Dammage, new EventArgs());
         }
 
         private void EnemyDead(object sender, EventArgs e)
         {
             _enemyToRemove = (EnemyUnit)sender;
+            EarnMoney.Invoke(_enemyToRemove.Cost, new EventArgs());
         }
 
         private void FriendlyDead(object sender, EventArgs e)

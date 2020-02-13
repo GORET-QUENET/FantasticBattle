@@ -10,13 +10,11 @@ namespace Scene.Game.Entities
         public FriendlyUnit(ContentManager contentManager,
                     GraphicsDevice graphicsDevice,
                     Vector2 position,
-                    Texture2D unitTexture,
-                    int health)
+                    UnitInformation information)
             : base(contentManager,
                   graphicsDevice,
                   position,
-                  unitTexture,
-                  health)
+                  information)
         {
 
         }
@@ -37,7 +35,7 @@ namespace Scene.Game.Entities
                 UnitState = EUnitState.Walk;
 
             if (UnitState == EUnitState.Walk)
-                Position.X += (float)(_speed * gameTime.ElapsedGameTime.TotalSeconds);
+                Position.X += (float)(Speed * gameTime.ElapsedGameTime.TotalSeconds);
 
             if (Position.X > _graphicsDevice.Viewport.Bounds.Width)
                 HaveFinish();

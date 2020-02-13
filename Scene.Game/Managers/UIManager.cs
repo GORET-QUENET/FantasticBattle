@@ -19,7 +19,8 @@ namespace Scene.Game.Managers
         private List<Button> _gameButtons = new List<Button>();
         private List<Sprite> _gameSprites = new List<Sprite>();
         private List<SpriteText> _gameSpritesTexts = new List<SpriteText>();
-        private HealthBar _healthBar;
+        private HealthBar _myHealthBar;
+        private HealthBar _enemyHealthBar;
         private double _timer;
 
         public int Money;
@@ -38,12 +39,11 @@ namespace Scene.Game.Managers
 
             _unitsManager.EnemyFinished += EnemyFinish;
             _unitsManager.FriendlyFinished += FriendlyFinish;
+            _unitsManager.EarnMoney += EarnMoneyByKill;
         }
 
         private void UnitButtonClicked(object sender, EventArgs e)
         {
-            Debug.WriteLine("Clicked");
-
             Button buttonClicked = (Button)sender;
             string name = GameConfig.Instance.UnitsName[buttonClicked.Id];
 
@@ -56,14 +56,19 @@ namespace Scene.Game.Managers
 
         private void EnemyFinish(object sender, EventArgs e)
         {
-            string name = (string)sender;
-            int dammage = _unitsManager.UnitsInformation[name].Dammage;
-            _healthBar.Health -= dammage;
+            int dammage = (int)sender;
+            _myHealthBar.Health -= dammage;
         }
 
         private void FriendlyFinish(object sender, EventArgs e)
         {
-            Console.WriteLine("have finish");
+            int dammage = (int)sender;
+            _enemyHealthBar.Health -= dammage;
+        }
+
+        private void EarnMoneyByKill(object sender, EventArgs e)
+        {
+            Money += (int)sender / 10;
         }
 
         #region MonoMethods
@@ -87,8 +92,9 @@ namespace Scene.Game.Managers
             };
             _gameSprites.Add(moneyIcon);
 
-            _healthBar = new HealthBar(_contentManager, 100, new Vector2(20, 20));
-            
+            _myHealthBar = new HealthBar(_contentManager, 100, new Vector2(20, 20));
+            _enemyHealthBar = new HealthBar(_contentManager, 100, new Vector2(590, 20));
+
             SpriteText moneyFont = new SpriteText(_defaultFont)
             {
                 Position = new Vector2(58, 50),
@@ -102,7 +108,8 @@ namespace Scene.Game.Managers
             _gameButtons.ForEach(x => x.Draw(gameTime, spriteBatch));
             _gameSprites.ForEach(x => x.Draw(gameTime, spriteBatch));
             _gameSpritesTexts.ForEach(x => x.Draw(gameTime, spriteBatch));
-            _healthBar.Draw(gameTime, spriteBatch);
+            _myHealthBar.Draw(gameTime, spriteBatch);
+            _enemyHealthBar.Draw(gameTime, spriteBatch);
         }
 
         public void Update(GameTime gameTime)
@@ -110,7 +117,8 @@ namespace Scene.Game.Managers
             _gameButtons.ForEach(x => x.Update(gameTime));
             _gameSprites.ForEach(x => x.Update(gameTime));
             _gameSpritesTexts.ForEach(x => x.Update(gameTime));
-            _healthBar.Update(gameTime);
+            _myHealthBar.Update(gameTime);
+            _enemyHealthBar.Update(gameTime);
 
             //Money text
             _gameSpritesTexts[0].Text = Money.ToString();

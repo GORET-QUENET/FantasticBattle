@@ -9,14 +9,12 @@ namespace Scene.Game.Entities
     {
         public EnemyUnit(ContentManager contentManager,
                     GraphicsDevice graphicsDevice,
-                    Vector2 position, 
-                    Texture2D unitTexture,
-                    int health) 
+                    Vector2 position,
+                    UnitInformation information) 
             : base(contentManager, 
                   graphicsDevice,
-                  position, 
-                  unitTexture,
-                  health)
+                  position,
+                  information)
         {
 
         }
@@ -36,7 +34,7 @@ namespace Scene.Game.Entities
                 UnitState = EUnitState.Walk;
 
             if (UnitState == EUnitState.Walk)
-                Position.X -= (float)(_speed * gameTime.ElapsedGameTime.TotalSeconds);
+                Position.X -= (float)(Speed * gameTime.ElapsedGameTime.TotalSeconds);
 
             if(Position.X < 0)
                 HaveFinish();

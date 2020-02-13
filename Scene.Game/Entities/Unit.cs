@@ -19,7 +19,6 @@ namespace Scene.Game.Entities
         protected double _timer = 0;
         protected GraphicsDevice _graphicsDevice;
         protected static Texture2D _unitTexture;
-        protected int _speed;
         protected Unit _opponent = null;
 
         public event EventHandler Finish;
@@ -32,26 +31,31 @@ namespace Scene.Game.Entities
                 return new Rectangle((int)Position.X, (int)Position.Y, _unitTexture.Width / AmountFrames, _unitTexture.Height);
             }
         }
-        public string Name;
-        public int Dammage;
-        public int ID;
-        public EUnitState UnitState;
+        public string Name { get; set; }
+        public int Dammage { get; set; }
+        protected int Speed { get; set; }
+        public int ID { get; set; }
+        public EUnitState UnitState { get; set; }
+        public int Cost { get; set; }
 
         public Unit(ContentManager contentManager, 
             GraphicsDevice graphicsDevice, 
             Vector2 position, 
-            Texture2D unitTexture,
-            int health)
+            UnitInformation information)
         {
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
-
             Position = position;
-            _unitTexture = unitTexture;
-            _healthBar = new HealthBar(contentManager, health, position, 40);
+
+            string path = string.Format("Units/{0}s/{1}", information.Race, information.Texture);
+            _unitTexture = _contentManager.Load<Texture2D>(path);
+            _healthBar = new HealthBar(contentManager, information.Health, position, 40);
 
             UnitState = EUnitState.Walk;
-            _speed = 50;
+            Speed = information.Speed;
+            Dammage = information.Dammage;
+            Cost = information.Cost;
+
             base.Load(_unitTexture.Width, 96, 96, 5);
         }
 
